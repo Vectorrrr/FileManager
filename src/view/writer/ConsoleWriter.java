@@ -5,7 +5,6 @@ package view.writer;
  */
 public class ConsoleWriter implements Writer {
 
-
     @Override
     public void writeString(String... strings)  {
         for(String s: strings){

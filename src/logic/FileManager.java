@@ -16,16 +16,19 @@ import java.util.List;
  * Created by igladush on 24.02.16.
  */
 public class FileManager {
-    private final int FILE_BEFORE_REPACKING = 2;
+
     private final String DEFAULT_PATH = "lib";
     private final String ERROR_READ = "I can't read file";
     private final String EXPANSION_FILE = ".base";
     private final String EXPANSION_COMPACTED = ".compacted";
-    private final String WRITE_ERRRO = "I have error when i write notice";
-    private static final int FILE_MAX_SIZE = 10;
+    private final String WRITE_ERROR = "I have error when i write notice";
+
+    private final int FILE_MAX_SIZE = 100000;
+    private final int FILE_BEFORE_REPACKING = 15;
 
     private int countOfCompacted = 1;
     private int countOfFile = 1;
+
     private File directory;
     private File workFile;
     private ConsoleWriter consoleWriter;
@@ -41,12 +44,11 @@ public class FileManager {
     }
 
     public void addNotice(Notice notice) {
-        checkSizeFile();
         writeNotice(notice);
     }
 
     public void addNotice() {
-        Notice notice = getNotise();
+        Notice notice = getNotice();
         writeNotice(notice);
     }
 
@@ -56,30 +58,28 @@ public class FileManager {
         try (NoticeFileWriter noticeFileWriter = new NoticeFileWriter(workFile, true)) {
             noticeFileWriter.writeNotices(notice);
         } catch (IOException e) {
-            System.err.println(WRITE_ERRRO);
+            System.err.println(WRITE_ERROR);
         }
 
     }
 
     private void checkSizeFile() {
-        boolean alreadyRepacking=false;
+        boolean alreadyRepacking = false;
         while (workFile.exists() && workFile.length() > FILE_MAX_SIZE) {
-            if (FILE_BEFORE_REPACKING <= countOfFile && !alreadyRepacking) {
-                doRepacing();
-                countOfFile=1;
-                alreadyRepacking=true;
+            if (countOfFile%FILE_BEFORE_REPACKING!=0 && !alreadyRepacking) {
+                doRepacking();
+                //countOfFile = 1;
+                alreadyRepacking = true;
             }
             countOfFile++;
-            workFile = new File(DEFAULT_PATH + "/" + countOfFile+EXPANSION_FILE);
+            workFile = new File(DEFAULT_PATH + "/" + countOfFile + EXPANSION_FILE);
             consoleWriter.writeString("Trying write in file" + workFile.getAbsolutePath());
         }
         consoleWriter.writeString("Write in file" + workFile.getAbsolutePath());
-
-
     }
 
-    private void doRepacing() {
-        File f = new File(DEFAULT_PATH);
+    private void doRepacking() {
+        File f ;
         List<Notice> content = new ArrayList<>();
         while (countOfFile > 0) {
             f = new File(DEFAULT_PATH + "/" + countOfFile + EXPANSION_FILE);
@@ -102,29 +102,29 @@ public class FileManager {
             noticeFileWriter.writeNotices(notices);
             consoleWriter.writeString("Create new compacted" + compacted.getAbsolutePath());
         } catch (IOException e) {
-            System.err.println(WRITE_ERRRO);
+            System.err.println(WRITE_ERROR);
         }
 
     }
 
     private List<Notice> retainLastRecord(List<Notice> content) {
         List<Notice> l = new ArrayList<>();
-        boolean alreadyContains=false;
-        for (int i = 0; i <content.size(); i++) {
-            alreadyContains=false;
+        boolean alreadyContains;
+        for (int i = 0; i < content.size(); i++) {
+            alreadyContains = false;
             for (int j = 0; j < l.size(); j++) {
                 if (l.get(j).getName().equals(content.get(i).getName())) {
-                    alreadyContains=true;
+                    alreadyContains = true;
                 }
             }
-            if(!alreadyContains){
+            if (!alreadyContains) {
                 l.add(content.get(i));
             }
         }
         return l;
     }
 
-    public ArrayList<Notice> getFileContent(File f) {
+    private ArrayList<Notice> getFileContent(File f) {
         ArrayList<Notice> result = new ArrayList<>();
         try (NoticeFileReader noticeFileReader = new NoticeFileReader(f)) {
             while (noticeFileReader.canRead()) {
@@ -135,11 +135,11 @@ public class FileManager {
         }
         return result;
     }
-
-    private Notice getNotise() {
+    //todo May be make class NoticeReaderFromConsole
+    private Notice getNotice() {
         String address;
         String name;
-        long telephone = 0;
+        long telephone;
 
         consoleWriter.writeString("Input address");
         address = reader.getString();

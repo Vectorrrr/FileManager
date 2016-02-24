@@ -13,8 +13,10 @@ public class NoticeFileReader implements NoticeReader {
     private final String EMPTY_STRING="";
     private final String ERROR_READ="I can't read next line";
     private final String PARSE_DATE_ERROR="I can't parse date";
+
     private BufferedReader bufferReader;
     private String nextLine;
+
     public NoticeFileReader(File file) throws IOException {
         bufferReader= new BufferedReader(new InputStreamReader(new FileInputStream(file)));
         nextLine=bufferReader.readLine();
@@ -54,9 +56,8 @@ public class NoticeFileReader implements NoticeReader {
         if(nextLine==null){
             return false;
         }
-        if(EMPTY_STRING.equals(nextLine)){
-            return false;
-        }
-        return true;
+        return !EMPTY_STRING.equals(nextLine);
+        // todo but I want write that string
+        // return nextLine != null && !EMPTY_STRING.equals(nextLine);
     }
 }

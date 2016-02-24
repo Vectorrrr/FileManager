@@ -1,7 +1,5 @@
 package view.writer;
 
-import model.Notice;
-
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileWriter;
@@ -22,11 +20,6 @@ public class FileWriters implements Writer,AutoCloseable,Closeable {
     public void writeString(String... strings) throws IOException {
         for(String s: strings){
             fw.write(s);
-        }
-    }
-    public void writeNotice(Notice... notices) throws IOException {
-        for(Notice n: notices){
-            fw.write(n.toString());
         }
     }
 

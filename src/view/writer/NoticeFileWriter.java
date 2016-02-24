@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by igladush on 24.02.16.
  */
-public class NoticeFileWriter implements Writer,AutoCloseable,Closeable {
+public class NoticeFileWriter implements NoticeWriter,AutoCloseable,Closeable {
     private final String CLOSE_ERROR = "I can't close file";
     private final String WRITE_ERROR = "I can't write in file";
     FileOutputStream fileOutputStream;
@@ -18,17 +18,6 @@ public class NoticeFileWriter implements Writer,AutoCloseable,Closeable {
     }
 
     @Override
-    public void writeString(String... strings) throws IOException {
-        for (String s : strings) {
-
-            try {
-                fileOutputStream.write(s.getBytes());
-            } catch (IOException e) {
-                System.err.println(WRITE_ERROR);
-            }
-        }
-    }
-
     public void writeNotices(Notice... notices) {
         for (Notice notice : notices) {
             try {
@@ -37,7 +26,9 @@ public class NoticeFileWriter implements Writer,AutoCloseable,Closeable {
                 System.err.println(WRITE_ERROR);
             }
         }
+
     }
+    @Override
     public void writeNotices(List<Notice> notices) {
         for (Notice notice : notices) {
             try {

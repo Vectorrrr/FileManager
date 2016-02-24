@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * Created by igladush on 24.02.16.
  */
-//todo sequence of atribute 
+//todo sequence of attribute
 public class Notice {
     public static final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy-HH:mm:ss");
     private final String EMPTY_STRING = "";
@@ -58,7 +58,7 @@ public class Notice {
         if (EMPTY_STRING.equals(name)) {
             return EMPTY_STRING;
         }
-        return name + " " + telephone + " " + address + " " + dateFormat.format(date);
+        return name + " " + telephone + " " + address + " " + dateFormat.format(date)+"\n";
     }
 
 }
