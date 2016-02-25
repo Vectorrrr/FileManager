@@ -11,7 +11,7 @@ import java.util.List;
 public class NoticeFileWriter implements NoticeWriter,AutoCloseable,Closeable {
     private final String CLOSE_ERROR = "I can't close file";
     private final String WRITE_ERROR = "I can't write in file";
-    FileOutputStream fileOutputStream;
+    private FileOutputStream fileOutputStream;
 
     public NoticeFileWriter(File file, boolean append) throws FileNotFoundException {
         fileOutputStream = new FileOutputStream(file, append);

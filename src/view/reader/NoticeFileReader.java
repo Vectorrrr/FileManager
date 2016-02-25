@@ -31,7 +31,7 @@ public class NoticeFileReader implements NoticeReader {
         String name = s[2];
         Date date = new Date();
         try {
-            date = Notice.dateFormat.parse(s[3]);
+            date = Notice.DATE_FORMAT.parse(s[3]);
         } catch (ParseException e) {
             System.err.println(PARSE_DATE_ERROR);
         }

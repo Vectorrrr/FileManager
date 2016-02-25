@@ -10,10 +10,11 @@ import java.util.Date;
  */
 //todo sequence of attribute
 public class Notice {
-    public static final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy-HH:mm:ss");
+    public static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy-HH:mm:ss");
     private final String EMPTY_STRING = "";
     private String name;
     private long telephone;
+
     private String address;
     private Date date;
 
@@ -58,7 +59,7 @@ public class Notice {
         if (EMPTY_STRING.equals(name)) {
             return EMPTY_STRING;
         }
-        return name + " " + telephone + " " + address + " " + dateFormat.format(date)+"\n";
+        return name + " " + telephone + " " + address + " " + DATE_FORMAT.format(date)+"\n";
     }
 
 }

@@ -6,7 +6,7 @@ import java.util.Scanner;
  * Created by igladush on 24.02.16.
  */
 public class ConsoleReader implements Reader {
-    Scanner scanner;
+    private Scanner scanner;
 
     public ConsoleReader() {
         scanner = new Scanner(System.in);
